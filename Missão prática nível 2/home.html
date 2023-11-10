@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <main>
+        <div id="form">
+        <input type="text" id="valor">
+
+        <button type="button" onclick="add()">Adicionar</button>
+
+        <select name="select" id="select">
+            <option value="bubbleSort" selected>Bubble Sort</option>
+            <option value="selectionSort">Selection Sort</option>
+            <option value="quickSort">Quick Sort</option>
+        </select>
+
+        <button type="button" onclick="ordenar()">Ordenar</button>
+
+        <button type="button" onclick="misturar()">Misturar</button>
+
+        <ul id="valores"></ul>
+        </div>
+    </main>
+
+    <script src="exemplosjs/ordenando.js"></script>
+    <script>
+        function add() {
+        var campoDeEntrada = document.getElementById("valor");
+        var listaDeValores = document.getElementById("valores");
+        var node = document.createElement("li");
+        var textoDoCampo = campoDeEntrada.value;
+        var textNode = document.createTextNode(textoDoCampo);
+        node.appendChild(textNode);
+        listaDeValores.appendChild(node);
+        campoDeEntrada.value = "";
+        }
+
+        function ordenar() {
+            var listaDeValores = document.getElementById("valores");
+            var sort = document.getElementById("select").value;
+
+            var valoresArray = Array.from(listaDeValores.children).map(item => eval(item.innerHTML));
+
+            if (sort === "bubbleSort") {
+            valoresArray = bubbleSort(valoresArray);
+            } else if (sort === "selectionSort") {
+            valoresArray = selectionSort(valoresArray);
+            } else if (sort === "quickSort") {
+            valoresArray = quickSort(valoresArray);
+            }
+
+            var novosItens = valoresArray.map(item => `<li>${item}</li>`).reduce((accumulator, currentValue) => accumulator + currentValue, "");
+
+            listaDeValores.innerHTML = novosItens;
+        }
+
+        function misturar() {
+            var list = document.getElementById("valores");
+            console.log(Array.from(list.children))
+
+            var valoresArray = Array.from(list.children).map(item => eval(item.innerHTML));
+
+            valoresArray = shuffle(valoresArray);
+
+            var novosItens = valoresArray.map(item => `<li>${item}</li>`).reduce((accumulator, currentValue) => accumulator + currentValue, "");
+            list.innerHTML = novosItens;
+        }
+    </script>
+</body>
+</html>
